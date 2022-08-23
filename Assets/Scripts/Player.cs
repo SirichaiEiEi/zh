@@ -34,4 +34,12 @@ public class Player : MonoBehaviour
             hp -= 20;
         }
     }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Zombie"))
+        {
+            hp -= 0.1f;
+        }
+    }
 }
