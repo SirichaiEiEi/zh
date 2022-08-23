@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     public float hp = 100;
     Image imgHP;
     public GameObject text2, button1;
+    Zombie myZombie;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,15 @@ public class Player : MonoBehaviour
                 if (hit.collider.CompareTag("Zombie"))
                 {
                     asource.PlayOneShot(firearm);
+                    myZombie = hit.collider.GetComponent<Zombie>();
+                    myZombie.ZombieHP -= 25;
+                    if (myZombie.ZombieHP <= 0)
+                    {
+                        NavMeshAgent agent = myZombie.GetComponent<NavMeshAgent>();
+                        Animator anim = myZombie.GetComponent<Animator>();
+                        anim.SetFloat("Hp", 0);
+                        agent.speed = 0;
+                    }
                 }
             }
         }
@@ -55,7 +66,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Zombie"))
         {
-            hp -= 1f;
+            hp -= 0.2f;
         }
     }
 }
